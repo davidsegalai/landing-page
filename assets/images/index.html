@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <!-- [Previous head content remains the same until the testimonials styles] -->
+  <style>
+    /* [Previous styles remain the same] */
+
+    .testimonials-container {
+      overflow: hidden;
+      position: relative;
+      padding: 1rem 0;
+    }
+
+    .testimonials-track {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+
+    .testimonial {
+      min-width: calc(33.333% - 2rem);
+      margin: 0 1rem;
+      flex-shrink: 0;
+    }
+
+    .testimonial-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      height: 100%;
+    }
+
+    .testimonial-nav {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .nav-dot {
+      width: 0.75rem;
+      height: 0.75rem;
+      border-radius: 50%;
+      background: #e5e7eb;
+      cursor: pointer;
+      border: none;
+      padding: 0;
+      transition: background-color 0.3s ease;
+    }
+
+    .nav-dot.active {
+      background: #2563eb;
+    }
+
+    /* [Rest of the previous styles remain the same] */
+  </style>
+</head>
+<body>
+  <!-- [Previous body content remains the same until the testimonials script] -->
+
+  <script>
+    const testimonials = [
+      {
+        text: "ההשתלמות העניקה לי כלים פרקטיים לשילוב AI בכיתה. הליווי המקצועי והתמיכה המתמשכת היו מעולים.",
+        author: "ד\"ר מיכל כהן",
+        role: "רכזת פדגוגית, תיכון מדעים"
+      },
+      {
+        text: "סדנאות מעשיות ומועילות שעזרו לי להבין כיצד לנצל את הטכנולוגיה להעצמת הלמידה.",
+        author: "רועי לוי",
+        role: "מורה למדעי המחשב, חטיבת ביניים"
+      },
+      {
+        text: "ההרצאה בבית הספר פתחה לנו צוהר לעולם חדש של אפשרויות בהוראה.",
+        author: "שירה אברהם",
+        role: "מורה לאנגלית, בית ספר יסודי"
+      },
+      {
+        text: "הליווי המקצועי שינה את הדרך בה אני מלמד. התלמידים מתלהבים מהשילוב של טכנולוגיה בשיעורים.",
+        author: "יוסי מזרחי",
+        role: "מורה להיסטוריה, תיכון"
+      },
+      {
+        text: "ההשתלמות נתנה לי ביטחון רב בשימוש בכלי AI. אני רואה שיפור משמעותי בהישגי התלמידים.",
+        author: "נועה גולדשטיין",
+        role: "מחנכת כיתה ו'"
+      },
+      {
+        text: "תכנית מצוינת שפתחה בפני אפשרויות חדשות בהוראה. המנחה מקצועי ומבין את האתגרים בשטח.",
+        author: "דני כהן",
+        role: "רכז מדעים, חטיבת ביניים"
+      },
+      {
+        text: "ההדרכה האישית והליווי המתמשך תרמו רבות להתפתחות המקצועית שלי. ממליץ בחום.",
+        author: "אלון ברק",
+        role: "מורה למתמטיקה, תיכון"
+      },
+      {
+        text: "קיבלתי כלים פרקטיים להתמודדות עם אתגרי ההוראה המודרנית. התמיכה המקצועית מעולה.",
+        author: "לילך שרון",
+        role: "מורה לספרות, תיכון"
+      },
+      {
+        text: "ההשתלמות שדרגה את יכולות ההוראה שלי משמעותית. הצוות המקצועי תמיד זמין לשאלות ותמיכה.",
+        author: "עמית לוי",
+        role: "מורה למדעים, חטיבת ביניים"
+      }
+    ];
+
+    function TestimonialsCarousel() {
+      const [currentIndex, setCurrentIndex] = React.useState(0);
+      const totalGroups = Math.ceil(testimonials.length / 3);
+
+      React.useEffect(() => {
+        const timer = setInterval(() => {
+          setCurrentIndex((prev) => 
+            prev === testimonials.length - 3 ? 0 : prev + 3
+          );
+        }, 5000);
+        return () => clearInterval(timer);
+      }, []);
+
+      const navigateToGroup = (groupIndex) => {
+        setCurrentIndex(groupIndex * 3);
+      };
+
+      return React.createElement('div', { className: 'testimonials-container' }, [
+        React.createElement('div', { 
+          key: 'track',
+          className: 'testimonials-track',
+          style: {
+            transform: `translateX(${currentIndex * 33.333}%)`
+          }
+        },
+        testimonials.map((testimonial, index) =>
+          React.createElement('div', { 
+            key: index,
+            className: 'testimonial'
+          },
+          React.createElement('div', { className: 'testimonial-card' }, [
+            React.createElement('p', { 
+              key: 'text',
+              style: { marginBottom: '1rem' }
+            }, testimonial.text),
+            React.createElement('strong', { 
+              key: 'author',
+              style: { display: 'block', color: '#2563eb' }
+            }, testimonial.author),
+            React.createElement('span', { 
+              key: 'role',
+              style: { color: '#6b7280' }
+            }, testimonial.role)
+          ]))
+        )),
+        React.createElement('div', { 
+          key: 'nav',
+          className: 'testimonial-nav' 
+        }, 
+        Array.from({ length: totalGroups }).map((_, index) =>
+          React.createElement('button', {
+            key: index,
+            className: `nav-dot ${currentIndex === index * 3 ? 'active' : ''}`,
+            onClick: () => navigateToGroup(index)
+          })
+        ))
+      ]);
+    }
+
+    ReactDOM.render(
+      React.createElement(TestimonialsCarousel),
+      document.getElementById('testimonials-root')
+    );
+  </script>
+</body>
+</html>
